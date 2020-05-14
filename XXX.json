@@ -32,31 +32,51 @@
     },
     {
       "title": "Do you have the name of the court or tribunal?",
-      "fields": []
+      "fields": [
+        {
+          "id": "NameOfCT",
+          "type": "choice",
+          "label": "",
+          "choices": [
+            "Yes",
+            "No"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "What is the name of the court or tribunal centre?",
+      "fields": [
+        {
+          "id": "NameCT",
+          "type": "text",
+          "label": "Name of court or tribunal",
+          "helpText": "For example, Newcastle Crown Court"
+        }
+      ]
+    },
+    {
+      "title": "We found 3 Courts or Tribunals matching your search for 'Newcastle Court'",
+      "fields": [
+        {
+          "id": "generatedId_66132eb1_8dce_4125_aaec_72bd093c9b4e",
+          "type": "info",
+          "label": "Option1",
+          "infoText": "Newcastle upon Tyne Combined Court\nThis court runs only criminal hearings\n\n[Get information about this court building and its contact details](LINK)\n\nNewcastle Crown Court\n\nThis court runs only criminal hearings\n\n[Get information about this court building and its contact details](LINK)",
+          "infoType": "noformat"
+        }
+      ]
     }
   ],
   "declarationSection": {
-    "title": "Declaration",
-    "shortName": "Declaration",
+    "title": "",
+    "shortName": "",
     "fields": []
   },
   "acknowledgementSection": {
-    "title": "Confirmation page",
-    "shortName": "Acknowledgement Page",
-    "fields": [
-      {
-        "id": "helpText8",
-        "type": "info",
-        "label": "",
-        "infoText": "This is your last opportunity to print or save a pdf copy of your submitted form."
-      },
-      {
-        "id": "ackpageInfo",
-        "type": "info",
-        "label": "Payment",
-        "infoText": ""
-      }
-    ]
+    "title": "",
+    "shortName": "",
+    "fields": []
   },
   "destinations": [
     {
