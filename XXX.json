@@ -12,26 +12,25 @@
       "title": "What do u want to find out about the court or tribunal?",
       "fields": [
         {
-          "id": "BuildingInfo",
+          "id": "FirstQuestion",
           "type": "choice",
           "label": "",
           "choices": [
             "building information about a court or tribunal",
             "court or tribunal nearest to me",
-            "document exchange (DX) code",
-            "get an update about my application"
+            "document exchange (DX) code"
           ],
           "optionHelpText": [
             "This includes the address, opening hours, building facilities and contact details",
             "Help text for choice ref 1",
-            "Define it",
-            "XXX"
+            "Define it"
           ]
         }
       ]
     },
     {
       "title": "Do you have the name of the court or tribunal?",
+      "includeIf": "${FirstQuestion=0 || FirstQuestion=2}",
       "fields": [
         {
           "id": "NameOfCT",
@@ -46,6 +45,7 @@
     },
     {
       "title": "What is the name of the court or tribunal centre?",
+      "includeIf": "${NameOfCT=0}",
       "fields": [
         {
           "id": "NameCT",
@@ -56,13 +56,185 @@
       ]
     },
     {
+      "title": "Do you know which city is the court or tribunal in?",
+      "includeIf": "${NameOfCT=1}",
+      "fields": [
+        {
+          "id": "CityOfCT",
+          "type": "choice",
+          "label": "",
+          "choices": [
+            "Yes",
+            "No"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Which city is the court or tribunal in?",
+      "includeIf": "${CityOfCT=0}",
+      "fields": [
+        {
+          "id": "WhichCityOfCT",
+          "type": "text",
+          "label": "City of the court or tribunal"
+        }
+      ]
+    },
+    {
       "title": "We found 3 Courts or Tribunals matching your search for 'Newcastle Court'",
+      "includeIf": "${NameOfCT=0 ||CityOfCT=0 && FirstQuestion=0}",
+      "continueIf": "false",
+      "fields": [
+        {
+          "id": "generatedId_dda79ab7_086b_4c16_8241_ad66b1290e66",
+          "type": "info",
+          "label": "Option1",
+          "infoText": "**Newcastle upon Tyne Combined Court**\n\nThis court runs only criminal hearings.\n\n[Get information about this court building and its contact details](https://courttribunalfinder.service.gov.uk/courts/newcastle-upon-tyne-combined-court-centre)\n\n**Newcastle Crown Court**\n\nThis court runs only criminal hearings.\n\n[Get information about this court building and its contact details](https://courttribunalfinder.service.gov.uk/courts/newcastle-upon-tyne-combined-court-centre)\n\n**Newcastle Civil & Family Courts and Tribunals Centre**\n\nThis court runs adoption, bankruptcy, children, divorce, domestic violence, employment and immigration hearings.\n\n[Get information about this court building and its contact details](https://courttribunalfinder.service.gov.uk/courts/newcastle-civil-family-courts-and-tribunals-centre)",
+          "infoType": "noformat"
+        }
+      ],
+      "metadata": {
+        "comments": [
+          {
+            "text": "This is based loosely on Jen's 'search results screen'.\n\nLink:\n\nI defer to Jen to come up with the most appropriate interactions for this page! - Mac",
+            "colour": "#fffacd",
+            "date": 1589458197993,
+            "author": "MacSinghPersonal"
+          }
+        ]
+      }
+    },
+    {
+      "title": "Which area of law is your case related to?",
+      "includeIf": "${NameOfCT=1  &&  CityOfCT=1 && FirstQuestion=0}",
+      "description": "Define area of law and service in this context ",
+      "fields": [
+        {
+          "id": "AreaOfLaw",
+          "type": "revealingChoice",
+          "label": "",
+          "choices": [
+            "Family",
+            "Area of law 2",
+            "My service or area of law is not listed or I do not know",
+            "Area of law 4"
+          ],
+          "revealingFields": [
+            [
+              {
+                "id": "AoL1",
+                "type": "choice",
+                "label": "",
+                "choices": [
+                  "Area of law 1.1",
+                  "Area of law 1.2",
+                  "Area of law 1.3",
+                  "Area of law 1.4",
+                  "I do not know"
+                ]
+              }
+            ],
+            [],
+            [],
+            []
+          ]
+        }
+      ],
+      "metadata": {
+        "comments": [
+          {
+            "text": "Problem with this page\n\nUnsure how best to group the services or even if we should group it?\n\nGrouping all area of laws into Civil, Criminal,  Family and\n\nCreate 3 versions of this page.",
+            "colour": "#fffacd",
+            "date": 1589470965708,
+            "author": "MacSinghPersonal"
+          }
+        ]
+      }
+    },
+    {
+      "title": "Sorry, we cannot help you find your court or tribunal",
+      "includeIf": "${AreaOfLaw=2}",
+      "fields": [
+        {
+          "id": "generatedId_8f903f30_1e21_4d74_9ddb_2a700f90facc",
+          "type": "info",
+          "label": "",
+          "infoText": "We will need to know the postcode, city or area of law to help you find a court or tribunal.",
+          "infoType": "noformat"
+        }
+      ],
+      "metadata": {
+        "comments": [
+          {
+            "text": "Feedback from Jess:\nIdeal failsafe point is the A to Z page of courts",
+            "colour": "#fffacd",
+            "date": 1589473772383,
+            "author": "MacSinghPersonal"
+          }
+        ]
+      }
+    },
+    {
+      "title": "What is your postcode?",
+      "includeIf": "${FirstQuestion=0 && AreaOfLaw=0 ||AreaOfLaw= 1 || AreaOfLaw=3  }",
+      "fields": [
+        {
+          "id": "generatedId_eb70ce30_810d_441d_8503_29945b841464",
+          "type": "info",
+          "label": "Postcode",
+          "infoText": "Enter a postcode in England or Wales.  \n\nThis tool does not cover courts or tribunals in Northern Ireland or Scotland.",
+          "infoType": "noformat"
+        },
+        {
+          "id": "UKPostcode",
+          "type": "text",
+          "label": "Your postcode"
+        }
+      ],
+      "metadata": {
+        "comments": [
+          {
+            "text": "Hypothesise user need\n\nAs an applicant living in Wales,\n\nI need to find the contact number of Cardiff Court\nso that I can change my hearing date. ",
+            "colour": "#fffacd",
+            "date": 1589460946041,
+            "author": "MacSinghPersonal"
+          }
+        ]
+      }
+    },
+    {
+      "title": "We found 3 Courts or Tribunals matching your search for 'Newcastle Court'",
+      "includeIf": "${NameOfCT=0 ||CityOfCT=0 && FirstQuestion=1}",
+      "continueIf": "false",
       "fields": [
         {
           "id": "generatedId_66132eb1_8dce_4125_aaec_72bd093c9b4e",
           "type": "info",
           "label": "Option1",
-          "infoText": "Newcastle upon Tyne Combined Court\nThis court runs only criminal hearings\n\n[Get information about this court building and its contact details](LINK)\n\nNewcastle Crown Court\n\nThis court runs only criminal hearings\n\n[Get information about this court building and its contact details](LINK)",
+          "infoText": "**Newcastle upon Tyne Combined Court**\n\nThis court runs only criminal hearings.\n\n[Get information about this court building and its contact details](https://courttribunalfinder.service.gov.uk/courts/newcastle-upon-tyne-combined-court-centre)\n\n**Newcastle Crown Court**\n\nThis court runs only criminal hearings.\n\n[Get information about this court building and its contact details](https://courttribunalfinder.service.gov.uk/courts/newcastle-upon-tyne-combined-court-centre)\n\n**Newcastle Civil & Family Courts and Tribunals Centre**\n\nThis court runs adoption, bankruptcy, children, divorce, domestic violence, employment and immigration hearings.\n\n[Get information about this court building and its contact details](https://courttribunalfinder.service.gov.uk/courts/newcastle-civil-family-courts-and-tribunals-centre)",
+          "infoType": "noformat"
+        }
+      ],
+      "metadata": {
+        "comments": [
+          {
+            "text": "This is based loosely on Jen's 'search results screen'.\n\nLink:\n\nI defer to Jen to come up with the most appropriate interactions for this page! - Mac",
+            "colour": "#fffacd",
+            "date": 1589458197993,
+            "author": "MacSinghPersonal"
+          }
+        ]
+      }
+    },
+    {
+      "title": "Sorry, we do have information about courts or tribunals in Scotland or Northern Ireland",
+      "fields": [
+        {
+          "id": "generatedId_c996ae8d_271a_4be5_8e18_c1be5bc6091c",
+          "type": "info",
+          "label": "",
+          "infoText": "The postcode 'BT1 3LA' is for a court or tribunal in Belfast.\n\nYou can use this tool to find information about a court or tribunal in England and Wales only.\n\nVisit Justice NIdirect to [find a court or tribunal in Northern Ireland](https://www.justice-ni.gov.uk/articles/information-our-court-offices).",
           "infoType": "noformat"
         }
       ]
